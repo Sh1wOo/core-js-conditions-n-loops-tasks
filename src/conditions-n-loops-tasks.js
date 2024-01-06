@@ -130,8 +130,11 @@ function canQueenCaptureKing(queen, king) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  if (a + b > c && a + c > b && b + c > a) {
+    if (a === b || b === c || a === c) return true;
+  }
+  return false;
 }
 
 /**
@@ -148,8 +151,48 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  let res = '';
+  let currentNum = num;
+  const romNum = ['X', 'IX', 'V', 'IV', 'I'];
+  const arabicNum = [10, 9, 5, 4, 1];
+
+  while (currentNum > 0) {
+    if (currentNum - arabicNum[0] >= 0) {
+      currentNum -= arabicNum[0];
+      res += romNum[0];
+    } else break;
+  }
+
+  while (currentNum > 0) {
+    if (currentNum - arabicNum[1] >= 0) {
+      currentNum -= arabicNum[1];
+      res += romNum[1];
+    } else break;
+  }
+
+  while (currentNum > 0) {
+    if (currentNum - arabicNum[2] >= 0) {
+      currentNum -= arabicNum[2];
+      res += romNum[2];
+    } else break;
+  }
+
+  while (currentNum > 0) {
+    if (currentNum - arabicNum[3] >= 0) {
+      currentNum -= arabicNum[3];
+      res += romNum[3];
+    } else break;
+  }
+
+  while (currentNum > 0) {
+    if (currentNum - arabicNum[4] >= 0) {
+      currentNum -= arabicNum[4];
+      res += romNum[4];
+    } else break;
+  }
+
+  return res;
 }
 
 /**
@@ -167,8 +210,58 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let res = '';
+  let finalRes = '';
+  for (let i = 0; i < numberStr.length; i += 1) {
+    switch (numberStr[i]) {
+      case '0':
+        res += `zero `;
+        break;
+      case '1':
+        res += `one `;
+        break;
+      case '2':
+        res += `two `;
+        break;
+      case '3':
+        res += `three `;
+        break;
+      case '4':
+        res += `four `;
+        break;
+      case '5':
+        res += `five `;
+        break;
+      case '6':
+        res += `six `;
+        break;
+      case '7':
+        res += `seven `;
+        break;
+      case '8':
+        res += `eight `;
+        break;
+      case '9':
+        res += `nine `;
+        break;
+      case '.':
+        res += `point `;
+        break;
+      case '-':
+        res += `minus `;
+        break;
+      case ',':
+        res += `point `;
+        break;
+      default:
+        break;
+    }
+  }
+  for (let i = 0; i < res.length - 1; i += 1) {
+    finalRes += res[i];
+  }
+  return finalRes;
 }
 
 /**
