@@ -276,8 +276,12 @@ function convertNumberToString(numberStr) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let reverseStr = '';
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    reverseStr += str[i];
+  }
+  return reverseStr === str;
 }
 
 /**
@@ -294,10 +298,12 @@ function isPalindrome(/* str */) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  for (let i = 0; i < str.length - 1; i += 1) {
+    if (str[i] === letter) return i;
+  }
+  return -1;
 }
-
 /**
  * Checks if a number contains a specific digit.
  * In this task, the use of methods of the String and Array classes is not allowed.
@@ -313,8 +319,11 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  for (let i = 0; i < String(num).length; i += 1) {
+    if (String(num)[i] === String(digit)) return true;
+  }
+  return false;
 }
 
 /**
@@ -330,8 +339,20 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  if (arr.length < 3) return -1;
+  for (let mid = 1; mid < arr.length; mid += 1) {
+    let sumLeft = 0;
+    let sumRight = 0;
+    for (let i = 0; i < mid - 1; i += 1) {
+      sumLeft += arr[i];
+    }
+    for (let i = mid; i < arr.length; i += 1) {
+      sumRight += arr[i];
+    }
+    if (sumLeft === sumRight) return mid - 1;
+  }
+  return -1;
 }
 
 /**
@@ -355,8 +376,84 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const arr = [];
+  let count = 0;
+  let ii = 0;
+  let jj = size - 1;
+  let iiHorizontalReverse = size - 1;
+  let jjVerticalReverse = 0;
+  arr.length = size;
+  for (let i = 0; i < size; i += 1) {
+    arr[i] = [];
+    arr[i].length = size;
+  }
+  for (let i = 0; i < size; i += 1) {
+    for (let j = 0; j < size; j += 1) {
+      arr[i][j] = 0;
+    }
+  }
+
+  function horizontalFill() {
+    for (let j = 0; j < size; j += 1) {
+      const i = ii;
+      if (arr[i][j] === 0) {
+        count += 1;
+        arr[i][j] = count;
+      }
+      if (count === size ** 2) return arr;
+    }
+    ii += 1;
+    return ii;
+  }
+
+  function verticalFill() {
+    for (let i = 0; i < size; i += 1) {
+      const j = jj;
+      if (arr[i][j] === 0) {
+        count += 1;
+        arr[i][j] = count;
+      }
+      if (count === size ** 2) return arr;
+    }
+    jj -= 1;
+    return jj;
+  }
+
+  function horizontalReverseFill() {
+    const i = iiHorizontalReverse;
+    for (let j = size; j >= 0; j -= 1) {
+      if (arr[i][j] === 0) {
+        count += 1;
+        arr[i][j] = count;
+      }
+      if (count === size ** 2) return arr;
+    }
+    iiHorizontalReverse -= 1;
+    return iiHorizontalReverse;
+  }
+
+  function verticalReverseFill() {
+    const j = jjVerticalReverse;
+    for (let i = size - 1; i >= 0; i -= 1) {
+      if (arr[i][j] === 0) {
+        count += 1;
+        arr[i][j] = count;
+      }
+      if (count === size ** 2) return arr;
+    }
+    jjVerticalReverse += 1;
+    return jjVerticalReverse;
+  }
+
+  while (count !== size ** 2) {
+    horizontalFill();
+    verticalFill();
+    horizontalReverseFill();
+    verticalReverseFill();
+  }
+
+  return arr;
 }
 
 /**
@@ -374,8 +471,37 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const resMatrix = [];
+  const finalResMatrix = [...matrix];
+
+  resMatrix.length = matrix.length;
+  for (let i = 0; i < matrix.length; i += 1) {
+    resMatrix[i] = [];
+    resMatrix[i].length = matrix.length;
+  }
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      resMatrix[i][j] = 0;
+    }
+  }
+
+  let ii = matrix.length;
+  let jj = 0;
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      ii -= 1;
+      resMatrix[i][j] = matrix[ii][jj];
+    }
+    jj += 1;
+    ii = matrix.length;
+  }
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    for (let j = 0; j < matrix.length; j += 1) {
+      finalResMatrix[i][j] = resMatrix[i][j];
+    }
+  }
 }
 
 /**
