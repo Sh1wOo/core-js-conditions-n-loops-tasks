@@ -594,8 +594,49 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  let numberString = String(number);
+  let lastI = numberString.length - 2;
+  while (lastI >= 0 && numberString[lastI] >= numberString[lastI + 1]) {
+    lastI -= 1;
+  }
+  if (lastI === -1) return +numberString;
+  let j = numberString.length - 1;
+  while (numberString[j] <= numberString[lastI]) {
+    j -= 1;
+  }
+  const tempI = numberString[lastI];
+  const tempJ = numberString[j];
+  const arr1 = [];
+  for (let i1 = 0; i1 < lastI; i1 += 1) {
+    arr1[i1] = numberString[i1];
+  }
+  const arr2 = [];
+  let ii2 = 0;
+  for (let i2 = lastI + 1; i2 < j; i2 += 1) {
+    arr2[ii2] = numberString[i2];
+    ii2 += 1;
+  }
+  const arr3 = [];
+  let ii3 = 0;
+  for (let i3 = j + 1; i3 < numberString.length; i3 += 1) {
+    arr3[ii3] = numberString[i3];
+    ii3 += 1;
+  }
+  numberString = arr1.join('') + tempJ + arr2.join('') + tempI + arr3.join('');
+  const rightFromIArr = [];
+  let ii1 = 0;
+  for (let ii = lastI + 1; ii < numberString.length; ii += 1) {
+    rightFromIArr[ii1] = numberString[ii];
+    ii1 += 1;
+  }
+  rightFromIArr.sort((a, b) => a - b);
+  const leftArr = [];
+  for (let iii = 0; iii < lastI + 1; iii += 1) {
+    leftArr[iii] = numberString[iii];
+  }
+  numberString = leftArr.join('') + rightFromIArr.join('');
+  return +numberString;
 }
 
 module.exports = {
